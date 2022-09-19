@@ -15,28 +15,31 @@
 
 function createSettingsSection() {
     const settings = createDivWithClassAndText(["progressBar__settings", "settings"]);
-    settings.appendChild(createInputWithText("Value", "settings__value", "input", "value"));
-    settings.appendChild(createInputWithText("Animate", "settings__animate", "checkbox", "animate"));
-    settings.appendChild(createInputWithText("Hide", "settings__hide", "checkbox", "hide"));
+    settings.appendChild(createInputWithText("settings__property", "settings__input", "Value", "input", "value"));
+    settings.appendChild(createInputWithText("settings__property", "settings__checkbox", "Animate", "checkbox", "animate"));
+    settings.appendChild(createInputWithText("settings__property", "settings__checkbox", "Hide", "checkbox", "hide"));
     return settings;
 }
 
-function createInputWithText(inputText = "", className = "" , inputType = "", id = String(Date.now())) {
+function createInputWithText(className = "", inputClassName = "", inputText = "", inputType = "", id = String(Date.now())) {
     const inputContainer = createDivWithClassAndText(className);
     const input = document.createElement("input");
     input.type = inputType;
     input.id = id;
-    // if(inputType === "checkbox") {
-    //     const label = document.createElement("label");
-    //     label.for = id;
-    //     label.innerHTML = inputText;
-    //     inputContainer.appendChild(label);
-    // }
+    input.classList.add(inputClassName);
+
 
     const text = document.createElement("span");
     text.innerHTML = inputText;
 
     inputContainer.appendChild(input);
+    if(inputType === "checkbox") {
+        // input.checked = true;
+        const label = document.createElement("label");
+        label.setAttribute("for", id);
+        label.classList.add("toggle");
+        inputContainer.appendChild(label);
+    }
     inputContainer.appendChild(text)
     return inputContainer;
 }

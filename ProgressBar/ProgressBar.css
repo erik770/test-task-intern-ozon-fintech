@@ -1,0 +1,123 @@
+.container {
+  margin: 30px;
+  display:flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.progressBar {
+  display:flex;
+  gap: 9rem;
+}
+
+.progressBar__circle {
+  --progress: 25;
+
+  display: grid;
+  place-items: center;
+  width: 150px;
+  aspect-ratio: 1;
+  position: relative;
+  background: conic-gradient(from 0deg, blue calc(var(--progress) * 1%), #D9D9EE calc(var(--progress) * 1%));
+  border-radius: 50%;
+  opacity: 1;
+}
+
+/*.progressBar__circle:before,*/
+.progressBar__circle:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+  width: 85%;
+  aspect-ratio: 1;
+}
+
+/*.progressBar__circle:before {*/
+/*  inset: 0;*/
+/*  background:*/
+/*          radial-gradient(farthest-side, blue 98%, #0000) top/15px 15px no-repeat,*/
+/*          conic-gradient(blue calc(var(--progress)*1%), rgb(201, 201, 201) 0);*/
+/*  !*-webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - 15px), #000 calc(100% - 15px));*!*/
+/*  mask: radial-gradient(farthest-side, #0000 calc(99% - 15px), #000 calc(100% - 15px));*/
+
+/*}*/
+
+.progressBar__settings {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  justify-content: space-between;
+}
+
+.settings {
+  width: 300px;
+}
+
+.settings__property {
+  display: flex;
+  align-items: center;
+  gap: 20%;
+}
+
+.settings__input {
+  width: 50px;
+  height: 2rem;
+  text-align: center;
+  /*padding: 0.125rem 0.25rem;*/
+  border-radius: 30px;
+  border: #02040F 1px solid;
+  font-size: 1rem;
+  /*font-weight: 500;*/
+  /*color: rgb(100, 100, 100);*/
+}
+ .settings__checkbox {
+  display: none;
+ }
+
+.settings__checkbox + .toggle {
+  display: block;
+  position: relative;
+  width: 3rem;
+  height: 1.75rem;
+  text-indent: -150%;
+  clip: rect(0 0 0 0);
+  color: transparent;
+  user-select: none;
+}
+.settings__checkbox + .toggle::before,
+.settings__checkbox + .toggle::after {
+  content: "";
+  display: block;
+  position: absolute;
+  cursor: pointer;
+}
+.settings__checkbox + .toggle::before {
+  width: 100%;
+  height: 100%;
+  background-color: #dedede;
+  border-radius: 9999em;
+  -webkit-transition: background-color 0.25s ease;
+  transition: background-color 0.25s ease;
+}
+.settings__checkbox + .toggle::after {
+  top: 0;
+  left: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
+  -webkit-transition: left 0.25s ease;
+  transition: left 0.25s ease;
+}
+.settings__checkbox:checked + .toggle::before {
+  background-color: #89c12d;
+}
+.settings__checkbox:checked + .toggle::after {
+  left: 24px;
+}
