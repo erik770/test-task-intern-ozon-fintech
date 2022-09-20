@@ -13,6 +13,67 @@
     root.appendChild(container);
 })();
 
+(function addListeners() {
+    addClickHandler("#animate", () => changeClassPresence(".progressBar__circle", "progressBar__circle_animated"));
+    addClickHandler("#hide", () => changeClassPresence(".progressBar__circle", "progressBar__circle_hidden"));
+    const clickedNode = document.querySelector("#value");
+    const circle = document.querySelector(".progressBar__circle");
+    if (!clickedNode) {
+        return;
+    }
+    var inter;
+    clickedNode.addEventListener('input', (e) => {
+        const inputNumber = validateInput(e.target.value)
+        e.target.value = inputNumber;
+        let progressValue = getComputedStyle(circle).getPropertyValue("--progress");
+        clearInterval(inter);
+        inter = setInterval(() => {
+            progressValue < inputNumber
+                ? progressValue++
+                : progressValue--;
+            circle.style.setProperty('--progress', String(progressValue));
+
+            if (+inputNumber === +progressValue) {
+                clearInterval(inter);
+            }
+        }, 20);
+    });
+})();
+
+
+function validateInput(inputNumber) {
+    if (inputNumber.length === 0) {
+        return "0";
+    }
+    if (inputNumber[0] === '0') {
+        return inputNumber.slice(1);
+    }
+    if (inputNumber > 100) {
+        return "100";
+    }
+    return inputNumber.replace(/[^0-9]/g, "");
+}
+
+function addClickHandler(selector = "", handler) {
+    const clickedNode = document.querySelector(selector);
+    if (!clickedNode) {
+        return;
+    }
+    clickedNode.addEventListener('click', handler);
+}
+
+function changeClassPresence(selector = "", className) {
+    const searchingNode = document.querySelector(selector);
+    if (!searchingNode) {
+        return new Error("node not found");
+    }
+    if (searchingNode.classList.contains(className)) {
+        searchingNode.classList.remove(className);
+    } else {
+        searchingNode.classList.add(className);
+    }
+}
+
 function createSettingsSection() {
     const settings = createDivWithClassAndText(["progressBar__settings", "settings"]);
     settings.appendChild(createInputWithText("settings__property", "settings__input", "Value", "input", "value"));
@@ -33,8 +94,7 @@ function createInputWithText(className = "", inputClassName = "", inputText = ""
     text.innerHTML = inputText;
 
     inputContainer.appendChild(input);
-    if(inputType === "checkbox") {
-        // input.checked = true;
+    if (inputType === "checkbox") {
         const label = document.createElement("label");
         label.setAttribute("for", id);
         label.classList.add("toggle");
@@ -46,9 +106,7 @@ function createInputWithText(className = "", inputClassName = "", inputText = ""
 
 function createDivWithClassAndText(className = "", text = "") {
     const divElem = document.createElement("div");
-    Array.isArray(className)
-        ? className.forEach(name => divElem.classList.add(name))
-        : divElem.classList.add(className);
+    Array.isArray(className) ? className.forEach(name => divElem.classList.add(name)) : divElem.classList.add(className);
     divElem.innerHTML = text;
     return divElem;
 }

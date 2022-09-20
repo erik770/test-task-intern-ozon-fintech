@@ -5,3 +5,20 @@
     --dark-border-color: #02040F;
     --blueish-border-color: #7777F8;
 }
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes fade-away {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
