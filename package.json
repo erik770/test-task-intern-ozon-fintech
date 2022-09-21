@@ -1,10 +1,11 @@
 {
   "name": "ozon-test-progressbar",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ProgressBar component test task for Ozon Fintech intern",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server --open=src"
   },
   "author": "",
   "license": "ISC"

@@ -1,45 +1,55 @@
-(function createProgressBar() {
-    const root = document.querySelector("#root");
-    if (root === undefined) {
+export function ProgressBar(parentNode, progressBarTitle = "Progress") {
+    createProgressBar(parentNode, progressBarTitle);
+    addHandlersForProgressBar();
+}
+
+function createProgressBar(parentNode, progressBarTitle) {
+    if (!parentNode || !(parentNode instanceof HTMLElement)) {
         return;
     }
     const container = createDivWithClassAndText("container");
-    container.appendChild(createDivWithClassAndText("title", "Progress"));
+    container.appendChild(createDivWithClassAndText("title", progressBarTitle));
 
     const progressBar = createDivWithClassAndText("progressBar");
     progressBar.appendChild(createDivWithClassAndText("progressBar__circle"))
     progressBar.appendChild(createSettingsSection());
     container.appendChild(progressBar);
-    root.appendChild(container);
-})();
+    parentNode.appendChild(container);
+}
 
-(function addListeners() {
+function addHandlersForProgressBar() {
     addClickHandler("#animate", () => changeClassPresence(".progressBar__circle", "progressBar__circle_animated"));
     addClickHandler("#hide", () => changeClassPresence(".progressBar__circle", "progressBar__circle_hidden"));
-    const clickedNode = document.querySelector("#value");
-    const circle = document.querySelector(".progressBar__circle");
-    if (!clickedNode) {
+    addProgressHandler(20);
+}
+
+function addProgressHandler(growingSpeed) {
+    const valueInputField = document.querySelector("#value");
+    if (!valueInputField) {
         return;
     }
-    var inter;
-    clickedNode.addEventListener('input', (e) => {
+    const progressCircle = document.querySelector(".progressBar__circle");
+    if (!progressCircle) {
+        return;
+    }
+    let inter;
+    valueInputField.addEventListener('input', (e) => {
         const inputNumber = validateInput(e.target.value)
         e.target.value = inputNumber;
-        let progressValue = getComputedStyle(circle).getPropertyValue("--progress");
+        let progressValue = getComputedStyle(progressCircle).getPropertyValue("--progress");
         clearInterval(inter);
         inter = setInterval(() => {
             progressValue < inputNumber
                 ? progressValue++
                 : progressValue--;
-            circle.style.setProperty('--progress', String(progressValue));
 
+            progressCircle.style.setProperty('--progress', String(progressValue));
             if (+inputNumber === +progressValue) {
                 clearInterval(inter);
             }
-        }, 20);
+        }, growingSpeed);
     });
-})();
-
+}
 
 function validateInput(inputNumber) {
     if (inputNumber.length === 0) {
@@ -54,7 +64,7 @@ function validateInput(inputNumber) {
     return inputNumber.replace(/[^0-9]/g, "");
 }
 
-function addClickHandler(selector = "", handler) {
+function addClickHandler(selector, handler) {
     const clickedNode = document.querySelector(selector);
     if (!clickedNode) {
         return;
@@ -62,7 +72,7 @@ function addClickHandler(selector = "", handler) {
     clickedNode.addEventListener('click', handler);
 }
 
-function changeClassPresence(selector = "", className) {
+function changeClassPresence(selector, className) {
     const searchingNode = document.querySelector(selector);
     if (!searchingNode) {
         return new Error("node not found");

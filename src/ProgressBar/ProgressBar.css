@@ -1,4 +1,3 @@
-
 .container {
     margin: 30px;
     display: flex;
@@ -51,16 +50,6 @@
     width: 85%;
     aspect-ratio: 1;
 }
-
-/*.progressBar__circle:before {*/
-/*  inset: 0;*/
-/*  background:*/
-/*          radial-gradient(farthest-side, blue 98%, #0000) top/15px 15px no-repeat,*/
-/*          conic-gradient(blue calc(var(--progress)*1%), rgb(201, 201, 201) 0);*/
-/*  !*-webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - 15px), #000 calc(100% - 15px));*!*/
-/*  mask: radial-gradient(farthest-side, #0000 calc(99% - 15px), #000 calc(100% - 15px));*/
-
-/*}*/
 
 .progressBar__settings {
     display: flex;

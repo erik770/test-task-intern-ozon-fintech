@@ -1,5 +1,5 @@
-@import "./const.css";
-@import "./ProgressBar/ProgressBar.css";
+@import "consts/const.css";
+@import "ProgressBar/ProgressBar.css";
 
 *,
 *::before,
@@ -10,8 +10,6 @@
 }
 
 .App {
-    /*margin-top: 20%;*/
-    /*margin-top: auto;*/
     height: 90vh;
     max-width: 70%;
     padding: 0 70px;
