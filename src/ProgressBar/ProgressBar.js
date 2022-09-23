@@ -1,3 +1,4 @@
+/** Class representing a Circular Progress Bar. */
 export class ProgressBar {
     #state = {
         value: 0,
@@ -5,6 +6,12 @@ export class ProgressBar {
         isHidden: false,
     }
 
+     /**
+      * Create a Progress Bar.
+      * @param {HTMLElement} parentNode - The node to which Progress Bar is attached.
+      * @param {string} [progressBarTitle] - The title of Progress Bar (displays at top left corner).
+      * @param {object} [initialState] - The initial state of Progress Bar.
+      */
     constructor(parentNode, progressBarTitle = "Progress", initialState = {value:0, isAnimated: false, isHidden: false}) {
         this.#state = {...initialState};
         
@@ -34,6 +41,10 @@ export class ProgressBar {
         addClickHandler("#hide", () => this.#state.isHidden ? this.show() : this.hide());       
     }
 
+    /**
+      * Change the progress percentage.
+      * @param {number} newValue - New progress percentage.
+      */
     setProgress(newValue) {
         const valueInputField = document.querySelector("#value");
         if (!valueInputField) {
@@ -44,6 +55,7 @@ export class ProgressBar {
         valueInputField.dispatchEvent(new Event('input', {bubbles:true}));
     }
 
+    /** Animates the Progress Bar (spinning animation) */
     turnAnimationOn() {
         if(this.#state.isAnimated){
             return;
@@ -57,6 +69,7 @@ export class ProgressBar {
         }
     }
     
+    /** Turn the spinning animation off */
     turnAnimationOff() {
         if(!this.#state.isAnimated){
             return;
@@ -70,6 +83,7 @@ export class ProgressBar {
         }
     }
 
+    /** Complitely hides Progress Bar from page */
     hide() {
         if(this.#state.isHidden){
             return;
@@ -83,6 +97,7 @@ export class ProgressBar {
         }
     }
     
+    /** If Progress Bar was hidden shows it */
     show() {
         if(!this.#state.isHidden){
             return;
@@ -97,6 +112,10 @@ export class ProgressBar {
     }
 }
 
+/**
+ * Binds the value in input form with progress percentage.
+ * @param {number} [growingSpeed] - Progress Bar change rate.
+ */
 function addProgressHandler(growingSpeed = 20) {
     const valueInputField = document.querySelector("#value");
     if (!valueInputField) {
@@ -125,19 +144,29 @@ function addProgressHandler(growingSpeed = 20) {
     });
 }
 
-function validateInput(inputNumber) {
-    if (inputNumber.length === 0) {
+/**
+ * Validates string to match numbers from 0 to 100.
+ * @param {string} inputString - The string we want to validate.
+ * @return {string} The string with number from 0 to 100 or empty string if doesn't fit the conditions.
+ */
+function validateInput(inputString) {
+    if (inputString.length === 0) {
         return "0";
     }
-    if (inputNumber[0] === '0') {
-        return inputNumber.slice(1);
+    if (inputString[0] === '0') {
+        return inputString.slice(1);
     }
-    if (inputNumber > 100) {
+    if (inputString > 100) {
         return "100";
     }
-    return inputNumber.replace(/[^0-9]/g, "");
+    return inputString.replace(/[^0-9]/g, "");
 }
 
+/**
+ * Binds the node found by selector with handler, which will be called after click on node.
+ * @param {string} selector - Selector by which the node is searched.
+ * @param {function} handler - The function that will be called after the click.
+ */
 function addClickHandler(selector, handler) {
     const clickedNode = document.querySelector(selector);
     if (!clickedNode) {
@@ -146,6 +175,11 @@ function addClickHandler(selector, handler) {
     clickedNode.addEventListener('click', handler);
 }
 
+/**
+ * Adds or removes class from node found by selector (If node already has the class then removes it, if dont have -- adds it).
+ * @param {string} selector - Selector by which the node is searched.
+ * @param {string} className - The removed or added classname.
+ */
 function changeClassPresence(selector, className) {
     const searchingNode = document.querySelector(selector);
     if (!searchingNode) {
@@ -158,6 +192,13 @@ function changeClassPresence(selector, className) {
     }
 }
 
+/**
+ * Creates setting section
+ * @param {number} value - Initial progress percentage.
+ * @param {boolean} isAnimated - Initial state of animation toggle.
+ * @param {boolean} isHidden - Initial state of hide toggle.
+ * @return {HTMLElement} Created settings section node.    
+*/
 function createSettingsSection(value, isAnimated, isHidden) {
     const settings = createDivWithClassAndText(["progressBar__settings", "settings"]);
     settings.appendChild(createInputWithText("settings__property", "settings__input", "Value", value, "input", "value"));
@@ -166,6 +207,16 @@ function createSettingsSection(value, isAnimated, isHidden) {
     return settings;
 }
 
+/**
+ * Creates input element based on parameters
+ * @param {string} [className] - Class name for div that frames the input.
+ * @param {string} [inputClassName] - Class name for input element.
+ * @param {string} [inputText] - The text next to the input field.
+ * @param {number|boolean} [inputValue] - The initial input value.
+ * @param {string} [inputType] - The input type.
+ * @param {string|number} [id] - The input id.
+ * @return {HTMLElement} - Div element with input and its text.
+*/
 function createInputWithText(className = "", inputClassName = "", inputText = "", inputValue = 0, inputType = "", id = String(Date.now())) {
     const inputContainer = createDivWithClassAndText(className);
     const input = document.createElement("input");
@@ -191,6 +242,12 @@ function createInputWithText(className = "", inputClassName = "", inputText = ""
     return inputContainer;
 }
 
+/**
+ * Creates a simple div element with class(es) and text in it
+ * @param {string|string[]} [className] - Class or many classes for div element.
+ * @param {string} [text] - The text that will be inside div element.
+ * @return {HTMLElement} - Created div element.
+ */
 function createDivWithClassAndText(className = "", text = "") {
     const divElem = document.createElement("div");
     Array.isArray(className) ? className.forEach(name => divElem.classList.add(name)) : divElem.classList.add(className);

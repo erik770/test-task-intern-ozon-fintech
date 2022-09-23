@@ -1,5 +1,6 @@
 import {ProgressBar} from "./ProgressBar/ProgressBar.js";
 
+/** Test function that creates Progress bar and uses its methods. */
 (function test() {
     const root = document.querySelector("#root");
     if (!root) {
@@ -10,7 +11,7 @@ import {ProgressBar} from "./ProgressBar/ProgressBar.js";
         isHidden: false,
         isAnimated: false,
     });
-    
+
     setTimeout(() => progressBar.setProgress(35), 3000);
     setTimeout(() => progressBar.turnAnimationOn(), 5000);
     setTimeout(() => progressBar.setProgress(70), 8000);
